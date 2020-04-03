@@ -44,4 +44,9 @@ public class Model {
 		
 		return sDAO.getCorsiPerStudente(studente);
 	}
+	
+	public boolean iscrivi(Studente s, Corso c) {
+		
+		return cDAO.inscriviStudenteACorso(s, c);
+	}
 }

@@ -154,7 +154,27 @@ public class FXMLController {
     void iscrivi(ActionEvent event) {
     
     	txtArea.clear();
-    	
+    	if(!this.controlloMatricola(txtMatricola.getText()))
+			return;
+		int matricola = Integer.parseInt(txtMatricola.getText());
+		Studente s = model.datiStudente(matricola);
+		if(s.getCognome().equals("") && s.getNome().equals("")) {
+			txtArea.setText("Nessuno studente trovato con la matricola selezionata\n");
+			return;
+		}
+		if(comboBox.getValue() == null || comboBox.getValue().getCodins().equals("")) {
+			txtArea.setText("Attenzione: selezionare un corso!\n");
+    		return;
+		}
+		if(model.elencoCorsiPerStudente(s).contains(comboBox.getValue())) {
+			txtArea.setText("Studente già iscritto al corso selezionato\n");
+			return;
+		}
+		boolean iscritto = model.iscrivi(s, comboBox.getValue());
+		if(iscritto)
+			txtArea.setText("Iscrizione completata con successo\n");
+		else txtArea.setText("Problema nella procedura d'iscrizione\n");
+    	  
     }
 
     @FXML
