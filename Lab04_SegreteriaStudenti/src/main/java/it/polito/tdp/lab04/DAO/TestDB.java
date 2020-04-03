@@ -17,7 +17,7 @@ public class TestDB {
 		StudenteDAO sdao = new StudenteDAO();
 		System.out.println(sdao.getStudente(new Studente(146101, "", "", "")));
 		System.out.println(cdao.getStudentiIscrittiAlCorso(new Corso ("01NATPG", 0, "", 0)));
-		
+		System.out.println(sdao.getCorsiPerStudente(new Studente(198978, "", "", "")));
 		
 	}
 

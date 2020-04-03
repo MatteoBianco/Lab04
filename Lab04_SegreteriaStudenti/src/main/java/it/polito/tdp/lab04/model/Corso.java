@@ -77,7 +77,7 @@ public class Corso {
 		if(codins.equals("")) {
 			return "";
 		}
-		return codins + ", " + nome + " (n. crediti: " + crediti + ")";
+		return codins + ", " + nome + " (n. crediti: " + crediti + ", pd: " + pd + ")\n";
 	}	
 	
 	

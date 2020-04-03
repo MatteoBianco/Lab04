@@ -108,6 +108,7 @@
                      <children>
                         <Button fx:id="btnCercaCorsi" mnemonicParsing="false" onAction="#cercaCorsi" text="Cerca Corsi" AnchorPane.leftAnchor="20.0" />
                         <Button fx:id="btnIscrivi" mnemonicParsing="false" onAction="#iscrivi" prefWidth="75.6" text="Iscrivi" AnchorPane.rightAnchor="20.0" />
+                        <Button fx:id="btnVerificaIscrizione" mnemonicParsing="false" onAction="#verificaIscrizione" text="Verifica iscrizione" AnchorPane.leftAnchor="240.0" />
                      </children>
                   </AnchorPane>
                </children>

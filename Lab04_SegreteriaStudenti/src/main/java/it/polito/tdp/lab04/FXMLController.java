@@ -42,6 +42,9 @@ public class FXMLController {
 
     @FXML
     private Button btnCercaCorsi;
+    
+    @FXML
+    private Button btnVerificaIscrizione;
 
     @FXML
     private Button btnIscrivi;
@@ -55,10 +58,32 @@ public class FXMLController {
     @FXML
     void cercaCorsi(ActionEvent event) {
     	
+    	txtArea.clear();
+    	if(!this.controlloMatricola(txtMatricola.getText()))
+			return;
+		int matricola = Integer.parseInt(txtMatricola.getText());
+		
+		Studente s = model.datiStudente(matricola);
+		if(s.getCognome().equals("") && s.getNome().equals("")) {
+			txtArea.setText("Nessuno studente trovato con la matricola selezionata\n");
+		}
+		else {
+			if(model.elencoCorsiPerStudente(s).isEmpty()) {
+				txtArea.setText("Lo studente selezionato non è iscritto ad alcun corso\n");
+			}
+			else {
+				for(Corso c : model.elencoCorsiPerStudente(s)) {
+					txtArea.appendText(c.toString());
+				}
+			}
+		}
+		
+    	
     }
 
     @FXML
     void cercaIscritti(ActionEvent event) {
+    	
     	txtArea.clear();
     	Corso corso = comboBox.getValue();
     	if(corso == null) {
@@ -81,13 +106,9 @@ public class FXMLController {
     	
 		txtArea.clear();
     	if(btnCheck.isSelected()){
-    		int matricola;
-    		try{
-    			matricola = Integer.parseInt(txtMatricola.getText());
-    		} catch(NumberFormatException e) {
-    			txtArea.setText("La matricola deve contenere solo valori numerici \n");
+    		if(!this.controlloMatricola(txtMatricola.getText()))
     			return;
-    		}
+    		int matricola = Integer.parseInt(txtMatricola.getText());
     		Studente s = model.datiStudente(matricola);
     		if(s.getCognome().equals("") && s.getNome().equals("")) {
     			txtArea.setText("Nessuno studente trovato con la matricola selezionata\n");
@@ -103,14 +124,63 @@ public class FXMLController {
     	}
     }
 
+    
+    @FXML
+    void verificaIscrizione(ActionEvent event) {
+    	
+    	txtArea.clear();
+    	if(!this.controlloMatricola(txtMatricola.getText()))
+			return;
+		int matricola = Integer.parseInt(txtMatricola.getText());
+		Studente s = model.datiStudente(matricola);
+		if(s.getCognome().equals("") && s.getNome().equals("")) {
+			txtArea.setText("Nessuno studente trovato con la matricola selezionata\n");
+			return;
+		}
+		if(comboBox.getValue() == null || comboBox.getValue().getCodins().equals("")) {
+			txtArea.setText("Attenzione: selezionare un corso!");
+    		return;
+		}
+		
+		if(model.elencoCorsiPerStudente(s).contains(comboBox.getValue())) {
+			txtArea.setText("Studente " + s.getMatricola() + " (" + s.getCognome() + " " +
+					s.getNome() + ") iscritto regolarmente al corso " + comboBox.getValue().getCodins() + " (" + comboBox.getValue().getNome() + ")");
+		}
+		else txtArea.setText("Studente " + s.getMatricola() + " (" + s.getCognome() + " " +
+					s.getNome() + ") non iscritto al corso " + comboBox.getValue().getCodins() + " (" + comboBox.getValue().getNome() + ")");
+    }
+    
     @FXML
     void iscrivi(ActionEvent event) {
-
+    
+    	txtArea.clear();
+    	
     }
 
     @FXML
     void reset(ActionEvent event) {
-
+    	comboBox.getSelectionModel().clearSelection();
+    	txtMatricola.clear();
+    	txtCognome.clear();
+    	txtNome.clear();
+    	txtArea.clear();
+    	btnCheck.setSelected(false);
+    }
+    
+    private boolean controlloMatricola(String matricola) {
+    	
+    	if(matricola.equals("")) {
+    		txtArea.setText("Inserire matricola\n");
+    		return false;
+    	}
+		
+		try{
+			Integer.parseInt(txtMatricola.getText());
+		} catch(NumberFormatException e) {
+			txtArea.setText("La matricola deve contenere solo valori numerici \n");
+			return false;
+		}
+    	return true;
     }
 
     @FXML // ResourceBundle that was given to the FXMLLoader

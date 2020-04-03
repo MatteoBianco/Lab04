@@ -39,4 +39,9 @@ public class Model {
 		
 		return sDAO.getStudentiIscritti();
 	}
+	
+	public List<Corso> elencoCorsiPerStudente(Studente studente) {
+		
+		return sDAO.getCorsiPerStudente(studente);
+	}
 }
